@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main_drawer"
+    android:background="#E6F2FF">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:map="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/map"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:context=".project.Activity.MapsActivity"
+            />
+
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/navigation"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                app:layout_constraintBottom_toBottomOf="@id/map"
+                android:foregroundGravity="bottom"
+                android:background="?android:attr/windowBackground"
+                app:itemBackground="@color/bgBottomNavigation"
+                android:foreground="?attr/selectableItemBackground"
+                app:itemIconTint="@android:color/white"
+                app:itemTextColor="@android:color/white"
+                app:menu="@menu/navigation" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/search_and_view"
+            android:background="@android:color/white"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+            <!-- SearchView -->
+            <SearchView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/search_filter"
+                android:inputType="textFilter"
+                android:textSize="14sp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"/>
+            <!-- ListView -->
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:id="@+id/listView"
+                android:layout_marginBottom="55dp"/>
+        </LinearLayout>
+
+        <!-- Speed Seek Bar -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/linear_seek_bar"
+            android:orientation="vertical"
+            android:background="@drawable/background_seek_bar_box"
+            app:layout_constraintBottom_toBottomOf="@+id/search_and_view"
+            android:layout_marginBottom="70dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <!--Speed and Time-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/carSpeed"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="18dp"
+                    android:text="Tốc độ"
+                    android:textColor="#ffffff"
+                    android:layout_weight="1"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_and_time"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="18dp"
+                    android:text="Thời điểm"
+                    android:textStyle="italic"
+                    android:textColor="#ffffff"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+            <!--SeekBar-->
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/seek_bar_speed"
+                android:max="20"
+                android:progress="3"
+                android:secondaryProgress="@android:integer/config_longAnimTime"
+                android:progressTint="@color/ThemeColor"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"/>
+            <!--Speed and location/place-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="center"
+                    android:id="@+id/carPlace"
+                    android:text="Địa điểm"
+                    android:textStyle="italic"
+                    android:textColor="#ffffff"
+                    android:layout_marginBottom="8dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

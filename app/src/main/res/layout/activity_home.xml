@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background_home"
+    android:gravity="center">
+    <!--Options Home-->>
+    <!--<ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dsslogo"
+        android:src="@drawable/dsswhitebiglogo"
+        android:padding="16dp"/>-->
+    <Button
+        android:layout_marginTop="400dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn_dispatching"
+        android:padding="8dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text="Điều vận"
+        android:background="@drawable/background_message_box"/>
+
+    <Button
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/btn_map"
+        android:layout_below="@id/btn_dispatching"
+        android:padding="8dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:text="Lái xe"
+        android:background="@drawable/background_message_box"/>
+
+        <ImageButton
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/btn_3rd"
+            android:layout_below="@id/btn_map"
+            android:padding="8dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/background_message_box"/>
+
+        <ImageButton
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:id="@+id/btn_4th"
+            android:layout_below="@id/btn_3rd"
+            android:padding="8dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp"
+            android:background="@drawable/background_message_box"/>
+
+    <!--Animation-->
+    <!--<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/relative_animation"
+        android:orientation="vertical"
+        android:background="#ffeed2"
+        android:gravity="center"
+        android:padding="30dp">
+
+        <ImageView
+            android:id="@+id/pickuptruck"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:src="@drawable/pickuptruck" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/pickuptruck"
+            android:id="@+id/dss"
+            android:src="@drawable/dsswhitebiglogo"/>
+
+    </RelativeLayout>-->
+
+</RelativeLayout>

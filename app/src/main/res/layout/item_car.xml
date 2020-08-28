@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="8dp"
+            android:src="@mipmap/car"
+            android:id="@+id/image_View" />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_sign_number"
+            android:layout_marginLeft="88dp"
+            android:text="Biển số xe"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_time"
+            android:layout_below="@id/item_sign_number"
+            android:layout_marginLeft="88dp"
+            android:text="Thời điểm"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_status"
+            android:layout_below="@id/item_time"
+            android:layout_marginLeft="88dp"
+            android:text="Trạng thái"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_business"
+            android:layout_below="@id/item_status"
+            android:layout_marginLeft="88dp"
+            android:text="Tác vụ"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_speed"
+            android:layout_below="@id/item_business"
+            android:layout_marginLeft="88dp"
+            android:text="Tốc độ"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_kmPerDay"
+            android:layout_below="@id/item_speed"
+            android:layout_marginLeft="88dp"
+            android:text="Quãng đường mỗi ngày (km)"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_fuel"
+            android:layout_below="@id/item_kmPerDay"
+            android:layout_marginLeft="88dp"
+            android:text="Nhiên liệu"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

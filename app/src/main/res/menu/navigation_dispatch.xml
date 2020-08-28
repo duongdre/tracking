@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:title="Điều vận" />
+
+    <item
+        android:id="@+id/nav_dispatch"
+        android:icon="@mipmap/quanli"
+        android:title="Quản lí" />
+
+    <item
+        android:id="@+id/nav_salary"
+        android:icon="@mipmap/thunhap"
+        android:title="Thu nhập" />
+
+    <item
+        android:id="@+id/nav_personal"
+        android:icon="@mipmap/canhan"
+        android:title="Cá nhân" />
+
+</menu>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:padding="8dp"
+            android:src="@mipmap/dieuvan"
+            android:id="@+id/image_View" />
+        <TextView
+            android:layout_marginTop="5dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/id"
+            android:layout_marginLeft="88dp"
+            android:text="ID Đơn điều vận"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/ThemeColor"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thoi_gian"
+            android:layout_below="@id/id"
+            android:layout_marginLeft="88dp"
+            android:text="Thời gian"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/dia_diem"
+            android:layout_below="@id/thoi_gian"
+            android:layout_marginLeft="88dp"
+            android:text="Địa điểm giao"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/loai_hang"
+            android:layout_below="@id/dia_diem"
+            android:layout_marginLeft="88dp"
+            android:text="Loại hàng"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/thu_nhap"
+            android:layout_below="@id/loai_hang"
+            android:layout_marginLeft="88dp"
+            android:text="Dự kiển thu nhập"
+            android:textSize="14sp"/>
+
+    </RelativeLayout>
+
+</LinearLayout>
