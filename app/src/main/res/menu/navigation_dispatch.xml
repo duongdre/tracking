@@ -17,7 +17,7 @@
         android:title="Thu nhập" />
 
     <item
-        android:id="@+id/nav_personal"
+        android:id="@+id/nav_account"
         android:icon="@mipmap/canhan"
         android:title="Cá nhân" />
 

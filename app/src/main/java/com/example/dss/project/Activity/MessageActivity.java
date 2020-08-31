@@ -1,11 +1,22 @@
 package com.example.dss.project.Activity;
 
+import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Instrumentation;
 import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.MimeTypeMap;
@@ -48,6 +59,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,6 +72,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MessageActivity extends AppCompatActivity {
 
+    private static final int PERMISSION_CODE = 1000;
+    private static final int IMAGE_CAPTURE_CODE = 1001;
     private BottomSheetBehavior bottomSheetBehavior;
 
     // loadingDialog = new LoadingDialog(MessageActivity.this);
@@ -67,12 +81,12 @@ public class MessageActivity extends AppCompatActivity {
     CircleImageView profile_image;
     TextView username, statusTime, statusName, test;
     ImageButton btn_send;
-    ImageView btn_camera, btn_voice;
+    ImageView btn_camera, btn_voice, capture_picture;
     //ImageView btn_update_status;
 
     EditText text_send;
     String url, check = "", myUrl;
-    Uri fileUri;
+    Uri fileUri, imageUri;
 
     MessAdapter messAdapter;
     CustomAdapter customAdapter;
@@ -143,7 +157,10 @@ public class MessageActivity extends AppCompatActivity {
         btn_send = findViewById(R.id.btn_send);
         btn_camera = findViewById(R.id.btn_camera);
         btn_voice = findViewById(R.id.btn_voice);
+        capture_picture = findViewById(R.id.capture_picture);
         //btn_update_status = findViewById(R.id.btn_status_update);
+
+        capture_picture.setVisibility(View.GONE);
 
         test = findViewById(R.id.text_send);
 
@@ -183,16 +200,34 @@ public class MessageActivity extends AppCompatActivity {
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String msg = text_send.getText().toString();
-
-                if (!msg.equals("")){
-                    sendMess("Device", "Server", "Text", msg);
+                if (capture_picture.getVisibility() != View.GONE){
+                    if (uploadTask != null && uploadTask.isInProgress()){
+                        Toast.makeText(MessageActivity.this, "Đang tải lên một tác vụ khác", Toast.LENGTH_SHORT).show();
+                    }else{
+                        final LoadingDialog loadingDialog = new LoadingDialog(MessageActivity.this);
+                        Toast.makeText(MessageActivity.this, "Đang tải ảnh lên", Toast.LENGTH_SHORT).show();
+                        loadingDialog.startLoadingDialog();
+                        Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                fileUploader();
+                                loadingDialog.dissmissDialog();
+                            }
+                        }, 10000);
+                        capture_picture.setVisibility(View.GONE);
+                        //sendMess("Device", "Server", "Image", fileUri.getLastPathSegment());
+                    }
                 }else{
-                    Toast.makeText(MessageActivity.this, "Không thể gửi tin nhắn rỗng", Toast.LENGTH_SHORT).show();
+                    String msg = text_send.getText().toString();
+                    if (!msg.equals("")) {
+                        sendMess("Device", "Server", "Text", msg);
+                    }else{
+                        Toast.makeText(MessageActivity.this, "Không thể gửi tin nhắn rỗng", Toast.LENGTH_SHORT).show();
+                    }
+                    text_send.setText("");
+                    //readMess("Server", "Device", "default");
                 }
-                text_send.setText("");
-                //readMess("Server", "Device", "default");
-
             }
         });
 
@@ -225,7 +260,36 @@ public class MessageActivity extends AppCompatActivity {
             }
         });
 
+        //Chose Image
+        /*btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent.createChooser(intent, "Selelect Image"), 1);
+            }
+        });*/
+
         btn_camera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+                    if (checkSelfPermission(Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED ||
+                    checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_DENIED){
+                        String[] permission = {Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+                        //popup request
+                        requestPermissions(permission, PERMISSION_CODE);
+                    }else{
+                        openCamera();
+                    }
+                }else{
+                    openCamera();
+                }
+            }
+        });
+
+        btn_voice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent();
@@ -234,18 +298,31 @@ public class MessageActivity extends AppCompatActivity {
                 startActivityForResult(intent.createChooser(intent, "Selelect Image"), 1);
             }
         });
+    }
 
-        btn_voice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (uploadTask != null && uploadTask.isInProgress()){
-                    Toast.makeText(MessageActivity.this, "Đang tải lên một tác vụ khác", Toast.LENGTH_SHORT).show();
+    private void openCamera(){
+        ContentValues values = new ContentValues();
+        values.put(MediaStore.Images.Media.TITLE, "New Picture");
+        values.put(MediaStore.Images.Media.DESCRIPTION, "From the Camera of DSS");
+        imageUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+        //camera intent
+        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+        startActivityForResult(cameraIntent, IMAGE_CAPTURE_CODE);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode){
+            case PERMISSION_CODE:{
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    openCamera();
                 }else{
-                    fileUploader();
-                    //sendMess("Device", "Server", "Image", fileUri.getLastPathSegment());
+                    Toast.makeText(this, "Từ chối truy cập Máy ảnh", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        }
     }
 
     private String getExtension(Uri uri){
@@ -254,15 +331,29 @@ public class MessageActivity extends AppCompatActivity {
         return mimeTypeMap.getExtensionFromMimeType(cr.getType(uri));
     }
 
+    /*public Bitmap resizeBitmap(Bitmap getBitmap, int maxSize) {
+        int width = getBitmap.getWidth();
+        int height = getBitmap.getHeight();
+        double x;
+
+        if (width >= height && width > maxSize) {
+            x = width / height;
+            width = maxSize;
+            height = (int) (maxSize / x);
+        } else if (height >= width && height > maxSize) {
+            x = height / width;
+            height = maxSize;
+            width = (int) (maxSize / x);
+        }
+        return Bitmap.createScaledBitmap(getBitmap, width, height, false);
+    }*/
+
     private void fileUploader(){
         final StorageReference ref = storageRef.child(System.currentTimeMillis() + "." + getExtension(fileUri));
 
         uploadTask = ref.putFile(fileUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Get a URL to the uploaded content
-                        //Uri downloadUrl = taskSnapshot.getDownloadUrl();
-
                         ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -284,11 +375,28 @@ public class MessageActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null){
+        //Chose Image
+        /*if (requestCode == 1 && resultCode == RESULT_OK && data != null && data.getData() != null){
             fileUri = data.getData();
-            btn_voice.setImageURI(fileUri);
+            capture_picture.setImageURI(fileUri.);
+            capture_picture.setVisibility(View.VISIBLE);
+        }*/
+        //Capture
+        if (resultCode == RESULT_OK){
+            fileUri = imageUri;
+            capture_picture.setImageURI(fileUri);
+            capture_picture.setVisibility(View.VISIBLE);
+            //System.out.println("URI: " + String.valueOf(imageUri));
         }
     }
+
+    //Get URI of a Bitmap Object for set instead of URI of image
+    /*public Uri getImageUri(Context inContext, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }*/
 
     private void showUpdateStatus(final int position) {
         AlertDialog.Builder builder = new AlertDialog.Builder(MessageActivity.this);

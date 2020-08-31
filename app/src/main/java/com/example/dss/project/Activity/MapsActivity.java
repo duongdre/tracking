@@ -757,7 +757,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
                     isViewHistoryOpen = false;
                 }
 
-                //View view = getLayoutInflater().inflate(R.layout.view_history, null);
+                //View view = getLayoutInflater().inflate(R.layout.fragment_view_history, null);
 
             }
         });

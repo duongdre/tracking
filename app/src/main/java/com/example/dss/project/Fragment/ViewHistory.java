@@ -35,7 +35,7 @@ public class ViewHistory extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.view_history, container, false);
+        View view = inflater.inflate(R.layout.fragment_view_history, container, false);
 
         showSchedule = view.findViewById(R.id.show_schedule);
         xemlichtrinh =  view.findViewById(R.id.schedule);

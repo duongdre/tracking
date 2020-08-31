@@ -3,7 +3,9 @@ package com.example.dss.project.Adapter;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Picture;
 import android.graphics.drawable.Icon;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +16,24 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
+import com.bumptech.glide.module.AppGlideModule;
 import com.example.dss.R;
 import com.example.dss.project.Models.Mess;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 public class MessAdapter extends RecyclerView.Adapter<MessAdapter.ViewHolder> {
 
@@ -55,7 +65,7 @@ public class MessAdapter extends RecyclerView.Adapter<MessAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull final MessAdapter.ViewHolder holder, int position) {
-        Mess mess = mMess.get(position);
+        final Mess mess = mMess.get(position);
 
         if (mess.getType().equals("Text")){
             holder.show_mess.setText(mess.getValue());
@@ -63,18 +73,19 @@ public class MessAdapter extends RecyclerView.Adapter<MessAdapter.ViewHolder> {
         }else if (mess.getType().equals("Image")){
             holder.show_mess.setVisibility(View.GONE);
             FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference httpsReference = storage.getReferenceFromUrl(mess.getValue());
-            final long ONE_MEGABYTE = 1024 * 1024;
+            final StorageReference httpsReference = storage.getReferenceFromUrl(mess.getValue());
+            final long ONE_MEGABYTE = 2048 * 2048;
             httpsReference.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
                 @Override
                 public void onSuccess(byte[] bytes) {
                     Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                    bmp = Bitmap.createScaledBitmap(bmp, 160, 160, true);
                     holder.show_image.setImageBitmap(bmp);
                 }
             }).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception exception) {
-                    Toast.makeText(mContext, "No Such file or Path found!!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(mContext, "Không thể tải ảnh", Toast.LENGTH_LONG).show();
                 }
             });
             //Toast.makeText(mContext, "ImageURL: " + mess.getValue(), Toast.LENGTH_SHORT).show();

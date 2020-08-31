@@ -1,12 +1,10 @@
 package com.example.dss.project.Activity;
 
 import android.app.AlertDialog;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,11 +23,12 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 
 import com.example.dss.R;
+import com.example.dss.project.Fragment.Account;
+import com.example.dss.project.Fragment.ViewHistory;
 import com.example.dss.project.Models.Dispatch;
-import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayList;
@@ -49,6 +48,8 @@ public class DispatchingActivity extends AppCompatActivity {
     SearchView filTer;
 
     LinearLayout searchAndView;
+
+    Fragment fragment = new Fragment();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -189,15 +190,24 @@ public class DispatchingActivity extends AppCompatActivity {
                     Intent intent = new Intent(DispatchingActivity.this, HomeActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
-                    /*startActivity(new Intent(DispatchingActivity.this, HomeActivity.class));*/
                     break;
                 case R.id.nav_dispatch:
+                    fragment = getSupportFragmentManager().findFragmentByTag("Acoount");
+                    if (fragment != null){
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
                     break;
                 case R.id.nav_salary:
                     Toast.makeText(DispatchingActivity.this, "THU NHẬP", Toast.LENGTH_SHORT).show();
+                    fragment = getSupportFragmentManager().findFragmentByTag("Acoount");
+                    if (fragment != null){
+                        getSupportFragmentManager().beginTransaction().remove(fragment).commit();
+                    }
                     break;
-                case R.id.nav_personal:
+                case R.id.nav_account:
                     Toast.makeText(DispatchingActivity.this, "CÁ NHÂN", Toast.LENGTH_SHORT).show();
+                    Fragment accountFragment = new Account();
+                    getSupportFragmentManager().beginTransaction().add(R.id.frame_container, accountFragment, "Acoount").commit();
                     break;
             }
             return true;

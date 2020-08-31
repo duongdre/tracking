@@ -13,6 +13,7 @@
         android:baselineAlignBottom="true"
         android:layout_marginRight="3dp"/>
     <TextView
+        android:layout_marginTop="1dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/show_mess"

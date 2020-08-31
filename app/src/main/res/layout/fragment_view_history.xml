@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:id="@+id/layout_info_car"
+    android:layout_marginBottom="70dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linear_view_history"
+            android:theme="@style/CardView.Dark"
+            android:background="@drawable/background_history_box"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+            <!-- From To Left Icon -->
+            <LinearLayout
+                android:layout_width="35dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_horizontal">
+                <ImageView
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:id="@+id/iconfrom"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_from"/>
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/icondot1"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_dot"/>
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/icondot2"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_dot"/>
+                <ImageView
+                    android:layout_width="5dp"
+                    android:layout_height="15dp"
+                    android:id="@+id/icondot3"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_dot"/>
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:id="@+id/iconto"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/ic_to"/>
+            </LinearLayout>
+
+            <!-- From To Adress -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:id="@+id/linear_from_to_address">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/edit_from"
+                    android:textStyle="italic"
+                    android:hint="Chọn thời điểm bắt đầu"/>
+                <EditText
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="8dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Chọn thời điểm kết thúc"
+                    android:id="@+id/edit_to"
+                    android:textStyle="italic"/>
+            </LinearLayout>
+
+            <!-- Button RUN -->
+            <LinearLayout
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/linear_view_history">
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/show_schedule"
+                    android:background="@drawable/background_message_box"
+                    android:padding="8dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="CHẠY"
+                    android:textColor="@color/ThemeColor"
+                    android:textSize="16sp"
+                    android:layout_marginRight="6dp"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
+    <!--Linear Button-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linear_view_button"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:weightSum="2">
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/schedule"
+            android:text="Xem lịch trình"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/background_history_box"
+            android:layout_marginRight="5dp"
+            android:padding="8dp"/>
+
+        <Button
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:id="@+id/get_me_there"
+            android:text="Điều hướng"
+            android:textColor="#ffffff"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:background="@drawable/background_history_box"
+            android:layout_marginLeft="5dp"
+            android:padding="8dp"/>
+
+        <!--<ImageView
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/cancle"
+            android:src="@mipmap/huy"/>-->
+
+    </LinearLayout>
+
+</RelativeLayout>
